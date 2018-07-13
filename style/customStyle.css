@@ -1,0 +1,217 @@
+
+html {
+    font-family: HelveticaNeueCry, Verdana,Tahoma,"DejaVu Sans",sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    line-height: 1.5em;
+    font-size: 14px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    color: #292a2bb5;
+}
+
+html, body, button, input, select, textarea {
+    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    min-height: 100vh;
+    position: relative;
+    margin: 0;
+}
+
+.block {
+    margin-bottom: 1.5em;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+#footer {
+    background: #f2f3f3;
+    height: 100px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    /*line-height: 60px;*/
+    background-color: #f5f5f5;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    min-height: 90px;
+    background-color: #fff167;
+    z-index: 100;
+    -moz-box-shadow: 0 3px 10px rgba(15,15,15,0.5);
+    -webkit-box-shadow: 0 3px 10px rgba(15,15,15,0.5);
+    box-shadow: 0 3px 10px rgba(15,15,15,0.5);
+}
+
+#header, #content, #navigation, .region-sidebar-first, .region-sidebar-second, #footer {
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+}
+
+#header, #navigation, #highlighted, .region-bottom {
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+}
+
+#header .container {
+    position: relative;
+    background: url(https://www.socialprotection-toolbox.org/sites/all/themes/hanoi/images/background-header.png) 0 0 no-repeat;
+    min-height: 90px;
+}
+
+#logo {
+    padding-top: 29px;
+}
+
+.header__logo {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+a:link, a:visited {
+    color: #369;
+    text-decoration: none;
+}
+
+#page, #header, #navigation, #highlighted, .region-bottom {
+    /* margin: 0; */
+    padding: 0;
+    max-width: 100%;
+}
+
+/*@media (min-width: 480px)*/
+#navigation {
+    position: absolute;
+    top: 0;
+    height: 3em;
+    width: 100%;
+}
+#header, #content, #navigation, .region-sidebar-first, .region-sidebar-second, #footer {
+    /* padding-left: 10px; */
+    /* padding-right: 10px; */
+    -moz-box-sizing: border-box;
+    /* -webkit-box-sizing: border-box; */
+    -ms-box-sizing: border-box;
+    /* box-sizing: border-box; */
+    word-wrap: break-word;
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+}
+
+#navigation .block {
+    margin-bottom: 0;
+}
+
+#sidr-menu {
+    /* position: relative; */
+    float: right;
+    width: 32px;
+    height: 32px;
+    background: url(https://www.socialprotection-toolbox.org/sites/all/themes/hanoi/images/icon-menu.svg) 0 0 no-repeat;
+    margin-top: 29px;
+    margin-right: 1em;
+    text-indent: -9999px;
+}
+
+.links, #navigation .menu {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    list-style-image: none;
+}
+
+#navigation .links li, #navigation .menu li {
+    float: left;
+    padding: 0 10px 0 0;
+    list-style-type: none;
+    list-style-image: none;
+}
+
+.menu a.active {
+    color: #000;
+}
+
+#header:before, #header:after, #main:before, #main:after, #footer:before, #footer:after {
+    content: "";
+    display: table;
+}
+
+#header:after, #main:after, #footer:after {
+    clear: both;
+}
+#header:before, #header:after, #main:before, #main:after, #footer:before, #footer:after {
+    content: "";
+    display: table;
+}
+
+#root{
+    padding-top: 90px;
+}
+/* Tab groups*/
+
+.nav-tabs li a {
+    font-size: 130%;
+    font-weight: 400;
+    color: #418ad8e8;
+}
+
+
+.tab-group .header{
+    font-weight: 400;
+    text-align: center;
+    font-size: 20pt;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #495057;
+}
+
+
+.scrollup {
+    background: url(https://www.socialprotection-toolbox.org/sites/all/themes/hanoi/images/icon_top.png) no-repeat scroll 0 0 transparent;
+    bottom: 50px;
+    display: none;
+    height: 40px;
+    position: fixed;
+    right: 100px;
+    text-indent: -9999px;
+    width: 40px;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+    filter: alpha(opacity=30);
+    -moz-opacity: 0.3;
+    -khtml-opacity: 0.3;
+    opacity: 0.3;
+    z-index: 100;
+}

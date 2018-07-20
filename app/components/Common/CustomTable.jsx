@@ -8,7 +8,8 @@ export default class CustomTable extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            view: {showModal: false}
+            view: {showModal: false},
+            modelData: "",
         }
     }
  
@@ -16,18 +17,17 @@ export default class CustomTable extends React.Component {
         return "".concat(dateObj.getUTCFullYear(), '-', dateObj.getUTCMonth(), '-', dateObj.getUTCDate().toString());
     }
 
-    handleHideModal(){
-        // this.setState({view: {showModal: false}});
+    handleHideModal = () => {
+         this.setState({view: {showModal: false}});
     }
         
-    handleShowModal(){
+    handleShowModal = () => {
         this.setState({
             view: {showModal: true}
         });
     }
 
-    viewTableRecord(recordId){
-        console.info(recordId);
+    viewTableRecord = (recordId) => {
         let recordOfInterest = null;
 
         for (let index = 0; index < this.props.tableData.length; index++) {
@@ -37,9 +37,10 @@ export default class CustomTable extends React.Component {
             }         
         }
 
-        console.log('REC INT: ', recordOfInterest);
         if(recordOfInterest){
-            console.log(this);
+            this.setState({
+                modelData: recordOfInterest}
+            );
             this.handleShowModal();
         }
     }
@@ -48,20 +49,18 @@ export default class CustomTable extends React.Component {
         const tableSyle = {
             marginTop: '5%'
         };
-        
         return (
             <div style={tableSyle}>
-                <p>All data files.</p>
-                <table id="mytable" class="table table-bordred table-striped">
+                <h4 className="mb-3 text-secondary mt-4">All data files</h4>
+                <table id="mytable" className="table table-hover table-striped">
                     <thead>
-                        <th className="station">No.</th>
+                        <th className="border-right">No.</th>
                         {
                             this.props.tableHeader.map(header => (
-                                <th className="station" key={header.title}>{header.title}</th>
+                                <th className="border-right" key={header.title}>{header.title}</th>
                             ))
                         }
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th className="border-right">Action</th>
                     </thead>
                     <tbody>
                         {
@@ -73,18 +72,12 @@ export default class CustomTable extends React.Component {
                                     <td>{ fileItem.year }</td>
                                     <td>{ this.parseDate(new Date(fileItem.lastupdated[fileItem.lastupdated.length - 1]))}</td>					
                                     <td>
-                                        <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                            <button class="btn btn-primary btn-xs" data-title="Edit" onClick={() => this.viewTableRecord(fileItem._id.$oid)}>
-                                                <span class="glyphicon glyphicon-pencil"><IoEye /></span>
-                                            </button>
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p data-placement="top" data-toggle="tooltip" title="Delete">
-                                            <button class="btn btn-danger btn-xs" data-title="Delete" onClick={this.props.removeTableRecord.bind(this, fileItem._id.$oid)}>
-                                                <span class="glyphicon glyphicon-trash"><IoTrashA /></span>
-                                            </button>
-                                        </p>
+                                        <a href="#" className="btn rounded" title="Edit" onClick={() => this.viewTableRecord(fileItem._id.$oid)}>
+                                            <i className="fas fa-pen"></i>
+                                        </a>
+                                        <a href="#" className="btn rounded" title="Delete" onClick={this.props.removeTableRecord.bind(this, fileItem._id.$oid)}>
+                                            <i className="fas fa-trash"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             ))
@@ -92,7 +85,7 @@ export default class CustomTable extends React.Component {
                         
                     </tbody>
                 </table>
-                {this.state.view.showModal ? <CustomModal handleHideModal={this.handleHideModal}/> : null}
+                {this.state.view.showModal ? <CustomModal handleHideModal={this.handleHideModal} modelData={this.state.modelData}/> : null}
             </div>
         )
     }

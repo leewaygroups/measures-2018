@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="https://v4-alpha.getbootstrap.com/assets/css/docs.min.css" >
 	<link rel="https://www.socialprotection-toolbox.org/files/css/css_tpGPqi9c8YOW2yRrnx-JSaUj-mtVuoWIDXBPNwQXlpA.css" >
 	<link rel="stylesheet" href="./style/customStyle.css" >
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <!-- Custom CSS -->
     <style>
         body {
@@ -42,35 +43,32 @@
 		.link {
 			fill: none;
 			stroke: #ccc;
-			stroke-width: 1.5px;
+			stroke-width: 5px;
 		}
 
-
-
-
-
-		.node circle {
-			fill: #fff;
-			stroke: steelblue;
-			stroke-width: 3px;
-		}
-
-		.node text { font: 12px sans-serif; }
+		.node text { font: 20px sans-serif; color: white; }
 
 		.node--internal text {
 			text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
 		}
 
-		.link {
-			fill: none;
-			stroke: #ccc;
-			stroke-width: 2px;
-		}
+    </style>
+	  <script>
+		  function openNav() {
+			  document.getElementById("sidr-toogle").style.right = "0";
+		  }
 
+		  function closeNav() {
+			  document.getElementById("sidr-toogle").style.right = "";
+		  }
 
-
-		
-    </style>   
+		  window.addEventListener('click', function(e){
+			  if (document.getElementById('sidr-menu').contains(e.target)){
+			  } else{
+				  closeNav();
+			  }
+		  });
+	  </script>
     <title>INEQUALITY</title>
   </head>
   <body>
@@ -81,16 +79,7 @@
 				<nav id="main-menu" role="navigation" tabindex="-1">
 					<div class="region region-navigation">
 						<div id="block-block-8" class="block block-block first odd">
-							<a id="sidr-menu" href="#sidr-toogle">Menu</a>
-						</div>
-						<div id="block-system-main-menu" class="block block-system block-menu last even" role="navigation">			
-							<ul class="menu"><li class="menu__item is-leaf first leaf"><a href="/#what-is-social-protection" class="menu__link active">What is social protection?</a></li>
-								<li class="menu__item is-leaf leaf"><a href="/#good-practices" title="Click here to access a map of good practices" class="menu__link menu-good-practices active">Good practices</a></li>
-								<li class="menu__item is-leaf leaf"><a href="/#assess-the-gap" title="Click here to generate a set of good practices tailored to your national context" class="menu__link menu-engage active">Assess the gap</a></li>
-								<li class="menu__item is-leaf leaf"><a href="/#build-your-skills" title="Click here to explore about social protection" class="menu__link menu-explore active">Build your skills</a></li>
-								<li class="menu__item is-leaf leaf"><a href="/#our-resources" title="Click here to access a map of network of experts" class="menu__link menu-network active">Our resources</a></li>
-								<li class="menu__item is-leaf last leaf"><a href="/#about-us" title="Click here for an introduction to the social protection toolbox" class="menu__link menu-about active">About us</a></li>
-							</ul>
+							<a id="sidr-menu" href="javaScript:void(0);" onclick="openNav()">Menu</a>
 						</div>
 					</div>
 				</nav>
@@ -112,6 +101,48 @@
 			</div>
 			<div id="block-block-2" class="block block-block last even">
 				<div style="float:right;">Copyright © 2018 ESCAP - Social Development Division</div>
+			</div>
+		</div>
+	</div>
+	<div id="sidr-toogle" class="sidr right" style="transition: right 0.2s ease;">
+		<div class="sidr-inner">
+			<div class="sidr-class-region sidr-class-region-navigation">
+				<div id="sidr-id-block-system-main-menu"
+					 role="navigation">
+					<ul class="sidr-class-menu"><li><a href="/#what-is-social-protection" class="sidr-class-menu__link sidr-class-active">What is social protection?</a></li>
+						<li >
+							<a href="/#good-practices" title="Click here to access a map of good practices"
+							   class="sidr-class-menu__link sidr-class-menu-good-practices sidr-class-active">
+								Good practices
+							</a>
+						</li>
+						<li >
+							<a href="/#assess-the-gap"
+							   title="Click here to generate a set of good practices tailored to your national context"
+							   class="sidr-class-menu__link sidr-class-menu-engage sidr-class-active">
+								Assess the gap
+							</a>
+						</li>
+						<li>
+							<a href="/#build-your-skills" title="Click here to explore about social protection"
+							   class="sidr-class-menu__link sidr-class-menu-explore sidr-class-active">
+								Build your skills
+							</a>
+						</li>
+						<li>
+							<a href="/#our-resources" title="Click here to access a map of network of experts"
+							   class="sidr-class-menu__link sidr-class-menu-network sidr-class-active">
+								Our resources
+							</a>
+						</li>
+						<li>
+							<a href="/#about-us" title="Click here for an introduction to the social protection toolbox"
+							   class="sidr-class-menu__link sidr-class-menu-about sidr-class-active">
+								About us
+							</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -25,11 +25,14 @@ export default class DataProvider {
     saveTrees(JSONTree){
         JSONTree.lastupdated.push(new Date());
         database.saveTree(JSONTree)
-        .then(res => {
-            res.json();
+            .then(res => {
+            return res.json();
         })
         .catch(error => console.error('Error:', error))
-        .then(response => console.log('Success:', response));;
+        .then(response => {
+            console.log('Success:', response);
+            return response;
+        });
     }
 
     removeTree(recordId){

@@ -17,7 +17,9 @@ export default class FileLoader extends React.Component {
         this.state = { files: [] }
     }
 
-    onDrop(files) {
+    onDrop(file) {
+        const files = [];
+        files.push(inputFile.files[0]);
         this.setState({
             files: files
         });
@@ -39,33 +41,30 @@ export default class FileLoader extends React.Component {
 
     render() {
         return (
-        <section>
-            <div className="dropzone">
-            <Dropzone
-                accept="text/plain"
-                onDrop={this.onDrop.bind(this)}
-                style={dropzoneStyle}>
-                <p>Try dropping structured text files here, or click to select files to upload.</p>
-            </Dropzone>
-            </div>
-            <aside>
-            {
-                this.state.files.length > 0 ?            
-                    <div>
-                        <h5>Dropped files</h5>
-                        <ul>
-                            {
-                            this.state.files.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-                            }
-                        </ul>
-                        <a className="btn btn-primary btn-lg" href="#" role="button" 
-                            onClick={this.handlefileUpload.bind(this)}>Click to process and upload</a>
-                    </div>
-                    :
-                    null  
-            }          
-            </aside>
-        </section>
+            <div className="row">
+                <div className="form-group inputDnD w-100">
+                    <label className="sr-only" for="inputFile">File Upload</label>
+                    <input type="file" className="form-control-file font-weight-bold" id="inputFile"
+                           onChange={this.onDrop.bind(this)}
+                           data-title="Try dropping structured text files here, or click to select files to upload.">
+                    </input>
+                </div>
+                {
+                    this.state.files.length > 0 ?
+                        <div className="mx-auto p-3">
+                            <h5 className="text-center">Dropped files</h5>
+                            <ul className="text-center">
+                                {
+                                this.state.files.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+                                }
+                            </ul>
+                            <a className="btn btn-info btn-lg grey-text" href="#" role="button"
+                                onClick={this.handlefileUpload.bind(this)}>Click to process and upload</a>
+                        </div>
+                        :
+                        null
+                }
+        </div>
         );
     }
 }

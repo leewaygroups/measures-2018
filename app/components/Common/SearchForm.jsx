@@ -75,7 +75,11 @@ export default class SearchForm extends React.Component {
                             <div className="form-group m-0 p-1">
                                 <select className="form-control" id="inputCountryCode" onChange={this.change} value={this.state.searchTerms.countryCode}>
                                     <option>Choose Country...</option>
-                                    <option>AM</option>
+                                    { 
+                                        this.props.selectionOptions.countries.map(optionItem => (
+                                            <option> {optionItem} </option>
+                                        ))
+                                    }                                    
                                 </select>
                             </div>
                         </div>
@@ -83,7 +87,11 @@ export default class SearchForm extends React.Component {
                             <div className="form-group m-0 p-1">
                                 <select className="form-control" id="inputResponse" onChange={this.change} value={this.state.searchTerms.response}>
                                     <option>Choose Response...</option>
-                                    <option>ChildHealth</option>
+                                    {
+                                        this.props.selectionOptions.responses.map(optionItem => (
+                                            <option> {optionItem} </option>
+                                        ))
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -91,7 +99,11 @@ export default class SearchForm extends React.Component {
                             <div className="form-group m-0 p-1">
                                 <select className="form-control" id="inputYear" onChange={this.change} value={this.state.searchTerms.year}>
                                     <option>Choose Year...</option>
-                                    <option>2018</option>
+                                    {
+                                        this.props.selectionOptions.years.map(optionItem => (
+                                            <option> {optionItem} </option>
+                                        ))
+                                    }
                                 </select>
                             </div>
                         </div>

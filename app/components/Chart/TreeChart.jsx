@@ -1,7 +1,6 @@
 import React from 'react';
 import { hierarchy } from 'd3-hierarchy'
 import * as _ from 'Lodash';
-// /import * as d3 from "d3";
 
 export default class TreeChart extends React.Component {
     constructor(props, context) {
@@ -16,326 +15,45 @@ export default class TreeChart extends React.Component {
         this.autoScale = false;
         this.showTooltip = true;
         this.tooltipDelay = 2000;
+        this.canShowTree = true;
     }
 
     componentWillMount() {
         d3 = require("d3");
     }
 
-    componentDidMount() {
+    componentDidMount() {        
+        this.props.targetTree ? this.fnInitTree(this.props.targetTree) : null;
+    }
 
-        var treeData = {
-            "_id": {
-                "$oid": "5b38cdba1f6e4f6fcc8233c2"
-            },
-            "countryCode": "AM",
-            "year": "",
-            "response": "CleanWater",
-            "sourcefile": "AM42CleanWater.txt",
-            "depth": 4,
-            "root": {
-                "isRoot": true,
-                "level": 0,
-                "location": null,
-                "parentNumber": null,
-                "attainment": "69%",
-                "visible": true,
-                "size": "100%",
-                "number": 1,
-                "children": [
-                    {
-                        "isRoot": false,
-                        "level": 1,
-                        "location": "Left",
-                        "parentNumber": 1,
-                        "number": 2,
-                        "caption": "BOTTOM 40",
-                        "size": "39%",
-                        "attainment": "38%",
-                        "visible": true,
-                        "children": [
-                            {
-                                "isRoot": false,
-                                "level": 2,
-                                "location": "Left",
-                                "parentNumber": 2,
-                                "caption": "RURAL",
-                                "size": "25%",
-                                "attainment": "29%",
-                                "visible": true,
-                                "number": 4,
-                                "children": [
-                                    {
-                                        "isRoot": false,
-                                        "level": 3,
-                                        "location": "Left",
-                                        "parentNumber": 4,
-                                        "caption": "MALE",
-                                        "size": "13%",
-                                        "attainment": "21%",
-                                        "visible": true,
-                                        "color": "orange",
-                                        "number": 8,
-                                        "children": [
-                                            {
-                                                "isRoot": false,
-                                                "level": 4,
-                                                "location": "Left",
-                                                "parentNumber": 8,
-                                                "number": 16,
-                                                "visible": false,
-                                                "children": []
-                                            },
-                                            {
-                                                "isRoot": false,
-                                                "level": 4,
-                                                "location": "Right",
-                                                "parentNumber": 8,
-                                                "number": 17,
-                                                "visible": false,
-                                                "children": []
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "isRoot": false,
-                                        "level": 3,
-                                        "location": "Right",
-                                        "parentNumber": 4,
-                                        "caption": "FEMALE",
-                                        "size": "12%",
-                                        "attainment": "37%",
-                                        "visible": true,
-                                        "color": "green",
-                                        "number": 9,
-                                        "children": [
-                                            {
-                                                "isRoot": false,
-                                                "level": 4,
-                                                "location": "Left",
-                                                "parentNumber": 9,
-                                                "number": 18,
-                                                "visible": false,
-                                                "children": []
-                                            },
-                                            {
-                                                "isRoot": false,
-                                                "level": 4,
-                                                "location": "Right",
-                                                "parentNumber": 9,
-                                                "number": 19,
-                                                "visible": false,
-                                                "children": []
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "isRoot": false,
-                                "level": 2,
-                                "location": "Right",
-                                "parentNumber": 2,
-                                "number": 5,
-                                "caption": "URBAN",
-                                "size": "14%",
-                                "attainment": "58%",
-                                "visible": true,
-                                "children": [
-                                    {
-                                        "isRoot": false,
-                                        "level": 3,
-                                        "location": "Left",
-                                        "parentNumber": 5,
-                                        "number": 10,
-                                        "visible": false,
-                                        "children": [
-                                            {
-                                                "isRoot": false,
-                                                "level": 4,
-                                                "location": "Left",
-                                                "parentNumber": 10,
-                                                "number": 20,
-                                                "visible": false,
-                                                "children": []
-                                            },
-                                            {
-                                                "isRoot": false,
-                                                "level": 4,
-                                                "location": "Right",
-                                                "parentNumber": 10,
-                                                "number": 21,
-                                                "visible": false,
-                                                "children": []
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "text": " PoorerHousehold=1 2547 319.13780 0.8311204 *",
-                        "circumstance": "PoorerHousehold"
-                    },
-                    {
-                        "isRoot": false,
-                        "level": 1,
-                        "location": "Right",
-                        "parentNumber": 1,
-                        "number": 3,
-                        "caption": "TOP 60",
-                        "size": "61%",
-                        "attainment": "88%",
-                        "visible": true,
-                        "children": [
-                            {
-                                "isRoot": false,
-                                "level": 2,
-                                "location": "Left",
-                                "parentNumber": 3,
-                                "number": 6,
-                                "caption": "MALE",
-                                "size": "29%",
-                                "attainment": "83%",
-                                "visible": true,
-                                "children": [
-                                    {
-                                        "isRoot": false,
-                                        "level": 3,
-                                        "location": "Left",
-                                        "parentNumber": 6,
-                                        "number": 12,
-                                        "visible": false,
-                                        "children": [
-                                            {
-                                                "isRoot": false,
-                                                "level": 4,
-                                                "location": "Left",
-                                                "parentNumber": 12,
-                                                "number": 24,
-                                                "children": []
-                                            },
-                                            {
-                                                "isRoot": false,
-                                                "level": 4,
-                                                "location": "Right",
-                                                "parentNumber": 12,
-                                                "number": 25,
-                                                "children": []
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "isRoot": false,
-                                        "level": 3,
-                                        "location": "Right",
-                                        "parentNumber": 6,
-                                        "number": 13,
-                                        "visible": false,
-                                        "children": [
-                                            {
-                                                "isRoot": false,
-                                                "level": 4,
-                                                "location": "Left",
-                                                "parentNumber": 13,
-                                                "number": 26,
-                                                "children": []
-                                            },
-                                            {
-                                                "isRoot": false,
-                                                "level": 4,
-                                                "location": "Right",
-                                                "parentNumber": 13,
-                                                "number": 27,
-                                                "children": []
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "isRoot": false,
-                                "level": 2,
-                                "location": "Right",
-                                "parentNumber": 3,
-                                "caption": "FEMALE",
-                                "size": "32%",
-                                "attainment": "93%",
-                                "color": "green",
-                                "visible": true,
-                                "number": 7,
-                                "children": [
-                                    {
-                                        "isRoot": false,
-                                        "level": 3,
-                                        "location": "Left",
-                                        "parentNumber": 7,
-                                        "number": 14,
-                                        "visible": false,
-                                        "children": [
-                                            {
-                                                "isRoot": false,
-                                                "level": 4,
-                                                "location": "Left",
-                                                "parentNumber": 14,
-                                                "number": 28,
-                                                "visible": true,
-                                                "children": []
-                                            },
-                                            {
-                                                "isRoot": false,
-                                                "level": 4,
-                                                "location": "Right",
-                                                "parentNumber": 14,
-                                                "number": 29,
-                                                "visible": true,
-                                                "children": []
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "isRoot": false,
-                                        "level": 3,
-                                        "location": "Right",
-                                        "parentNumber": 7,
-                                        "number": 15,
-                                        "visible": false,
-                                        "children": [
-                                            {
-                                                "isRoot": false,
-                                                "level": 4,
-                                                "location": "Left",
-                                                "parentNumber": 15,
-                                                "number": 30,
-                                                "visible": false,
-                                                "children": []
-                                            },
-                                            {
-                                                "isRoot": false,
-                                                "level": 4,
-                                                "location": "Right",
-                                                "parentNumber": 15,
-                                                "number": 31,
-                                                "visible": false,
-                                                "children": []
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ],
-                        "text": " PoorerHousehold=0 3433  30.34204 0.9917452 *",
-                        "circumstance": "PoorerHousehold"
-                    }
-                ],
-                "text": " root 5980 385.83780 0.9306723"
-            },
-            "lastupdated": [
-                "2018-07-01T12:48:56.479Z"
-            ]
-        };
+    shouldComponentUpdate(nextProps) {
 
+        console.info('Look here: ', this.props.targetTree, nextProps.targetTree)
 
-        this.fnInitTree(treeData);
+        if(nextProps.targetTree){          
+            
+            let isDifferentCountryCode = this.props.targetTree == undefined 
+                                        || this.props.targetTree.countryCode !== nextProps.targetTree.countryCode;
+
+            let isDifferentResponse = this.props.targetTree == undefined 
+                                        || this.props.targetTree.response !== nextProps.targetTree.response;
+
+            let isDifferentYear = this.props.targetTree == undefined 
+                                    || this.props.targetTree.year !== nextProps.targetTree.year;
+            
+
+            let verdict = isDifferentCountryCode || isDifferentResponse || isDifferentYear;
+
+            if(verdict){
+                this.fnInitTree(nextProps.targetTree);
+                this.canShowTree  = true;
+            }
+
+            return verdict;
+        }
+        
+        this.canShowTree  = false;
+        return true;
     }
 
     fnInitTree(data) {
@@ -650,11 +368,20 @@ export default class TreeChart extends React.Component {
     }
 
     render() {
+        let viewFrame;
+
+        if (this.canShowTree)
+        {
+            viewFrame = (
+                <div className="tree m-t-64" id="courseTree"
+                        style={{display: "flex", height: "100%", width: "100%", overflowX:"auto"}}>
+                    <div id="tooltip-container"></div>
+                </div>
+            );
+        }
+
         return (
-            <div className="tree m-t-64" id="courseTree"
-                 style={{display: "flex", height: "100%", width: "100%", overflowX:"auto"}}>
-                <div id="tooltip-container"></div>
-            </div>
+            [viewFrame]
         );
     }
 }

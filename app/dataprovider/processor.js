@@ -27,11 +27,12 @@ export default class DataProcessor {
                         foundNode.text = text;                        
                         this.processTextProperties(foundNode, text, file.name)
                     }                     
-                }
-
+                }               
+               
                 resultHandlers.forEach((handler)=>{
                     handler(tree);
                 })
+              
                 
             }
 
@@ -43,8 +44,53 @@ export default class DataProcessor {
     }
 
     processTextProperties(anode, textProps, fileName){
-        if(!anode.isRoot){
-            anode.circumstance = textProps.substring(0, textProps.indexOf('=')).trim();
+
+        let nodeTextArray;
+
+        if(anode.isRoot){
+            anode.circumstance = 'Average Attainment';
+            nodeTextArray = textProps.trim().split(" ");
+        }else{
+            
+            let tempTextArray;
+
+            if( textProps.indexOf('>=') >= 0 ){
+                tempTextArray = textProps.split(">=");
+            }
+            
+            else if ( textProps.indexOf('<=') >= 0) {
+                tempTextArray = textProps.split("<=");
+            } 
+            
+            else if(textProps.indexOf('<') >= 0) {
+                tempTextArray = textProps.split("<");
+            }
+
+            else if(textProps.indexOf('>') >= 0) {
+                tempTextArray = textProps.split(">");
+            }
+
+            else if(textProps.indexOf('=') >= 0) {
+                tempTextArray = textProps.split("=");
+            }
+
+            else{
+                tempTextArray = [];
+            }
+
+            if(tempTextArray.length){
+                anode.circumstance = tempTextArray[0];
+                nodeTextArray = tempTextArray[1].replace('*', '').trim().split(" ");
+            }
+
+            /*
+                "visible": true,
+            */
         }
+
+        anode.visible = true;
+        anode.caption = nodeTextArray[0];
+        anode.size = nodeTextArray[1]
+        anode.attainment = (parseFloat(nodeTextArray[nodeTextArray.length-1].substring(0, 4)) * 100).toFixed(2) + '%'
     }
 }

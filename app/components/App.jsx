@@ -16,8 +16,14 @@ export default class App extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleUploadedFiles = this.handleUploadedFiles.bind(this);
         this.searchForTree = this.searchForTree.bind(this);
+        this.buildSelectionOptions = this.buildSelectionOptions.bind(this);
         this.state = {
             dataFilesMetaData: [],
+            selectionOptions: {
+                countries: [],
+                responses: [],
+                years: []
+            }
         };
     }
 
@@ -33,6 +39,7 @@ export default class App extends React.Component {
                 dataProvider.getAllTrees()
                     .then((response)=>{
                         response.json().then((jsonRes)=>{
+                            console.log('All', jsonRes)
                             self.setState({
                                 dataFilesMetaData : jsonRes
                             })
@@ -95,13 +102,34 @@ export default class App extends React.Component {
         );
     }
 
+    buildSelectionOptions = (allTrees) => {
+        let countrySet = new Set();
+        let responseSet = new Set();
+        let yearSet = new Set();
+
+        for (let index = 0; index < allTrees.length; index++) {
+            countrySet.add(allTrees[index].countryCode);
+            responseSet.add(allTrees[index].response);
+            yearSet.add(allTrees[index].year)         
+        }
+
+        return {
+            countries: Array.from(countrySet),
+            responses: Array.from(responseSet),
+            years: Array.from(yearSet)
+        };
+    }
+
     componentDidMount(){
         let self = this;
         dataProvider.getAllTrees()
             .then((response) => {
                 response.json().then((res)=>{
+                    console.log('all trees', res);
+
                     this.setState({
-                        dataFilesMetaData : res
+                        dataFilesMetaData : res,
+                        selectionOptions: this.buildSelectionOptions(res)
                     });
                 })
             }).catch((ex) => {
@@ -141,7 +169,7 @@ export default class App extends React.Component {
                         </div>
                         <div id="inequality" className="container tab-pane">
                             <h4 className="mb-3 text-secondary mt-4">Inequalities Visualised</h4>
-                            <SearchForm search={this.searchForTree} />
+                            <SearchForm selectionOptions={this.state.selectionOptions} search={this.searchForTree} />
                             <CanvasContainer targetTree={this.state.treeInView}/>
                         </div>
                         <div id="admin" className="container tab-pane">
@@ -160,7 +188,7 @@ export default class App extends React.Component {
                                                 tableData = { this.state.dataFilesMetaData }
                                                 removeTableRecord = { this.removeTableRecord}
                                             />
-                                            }
+                                        }
                                     </div>
                                 </div>
                         </div>

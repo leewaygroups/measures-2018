@@ -6,6 +6,7 @@ import DataProvider from '../dataprovider/provider.js';
 import DataProcessor from '../dataprovider/processor.js';
 import CanvasContainer from './Canvas/CanvasContainer.jsx';
 import SearchForm from './Common/SearchForm.jsx';
+import * as FileSaver from 'file-saver';
 
 let dataProvider = new DataProvider();
 let dataProcessor = new DataProcessor();
@@ -17,6 +18,8 @@ export default class App extends React.Component {
         this.handleUploadedFiles = this.handleUploadedFiles.bind(this);
         this.searchForTree = this.searchForTree.bind(this);
         this.buildSelectionOptions = this.buildSelectionOptions.bind(this);
+        this.downloadJSONData = this.downloadJSONData.bind(this);
+
         this.state = {
             dataFilesMetaData: [],
             selectionOptions: {
@@ -39,7 +42,6 @@ export default class App extends React.Component {
                 dataProvider.getAllTrees()
                     .then((response)=>{
                         response.json().then((jsonRes)=>{
-                            console.log('All', jsonRes)
                             self.setState({
                                 dataFilesMetaData : jsonRes
                             })
@@ -87,7 +89,7 @@ export default class App extends React.Component {
                         treeInView: res
                     });
 
-                    setTimeout(() => {console.log(self.state)}, 3000)
+                    //setTimeout(() => {console.log(self.state)}, 3000)
                 });
             });
     }
@@ -120,12 +122,20 @@ export default class App extends React.Component {
         };
     }
 
+    downloadJSONData = (jsonData) => {
+
+        let file = new Blob([JSON.stringify(jsonData)], { 
+            type: 'application/json' 
+        });
+
+        FileSaver.saveAs(file, 'data.json');
+    }
+
     componentDidMount(){
         let self = this;
         dataProvider.getAllTrees()
             .then((response) => {
                 response.json().then((res)=>{
-                    console.log('all trees', res);
 
                     this.setState({
                         dataFilesMetaData : res,
@@ -187,6 +197,7 @@ export default class App extends React.Component {
                                                 tableHeader = { [{ title: 'Country code'}, { title: 'Response'}, { title: 'Year'}, { title: 'Last updated'} ] }
                                                 tableData = { this.state.dataFilesMetaData }
                                                 removeTableRecord = { this.removeTableRecord}
+                                                download= {this.downloadJSONData}
                                             />
                                         }
                                     </div>

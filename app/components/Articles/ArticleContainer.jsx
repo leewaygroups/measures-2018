@@ -61,8 +61,6 @@ export default class ArticleContainer extends React.Component {
     }
 
     handleDownload(){
-        // download the active article
-        //console.log(this.state.activeArticle);
         this.setState({ showModal: false });
     }
 

@@ -31,9 +31,7 @@ export default class DataProcessor {
                
                 resultHandlers.forEach((handler)=>{
                     handler(tree);
-                })
-              
-                
+                });
             }
 
             reader.onabort = () => console.log('file reading was aborted');

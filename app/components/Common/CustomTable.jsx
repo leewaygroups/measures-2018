@@ -85,7 +85,16 @@ export default class CustomTable extends React.Component {
                         
                     </tbody>
                 </table>
-                {this.state.view.showModal ? <CustomModal handleHideModal={this.handleHideModal} modelData={this.state.modelData}/> : null}
+                {
+                    this.state.view.showModal 
+                    ? 
+                    <CustomModal 
+                        handleHideModal={this.handleHideModal} 
+                        modelData={this.state.modelData}
+                        download = {this.props.download}/> 
+                    : 
+                    null
+                }
             </div>
         )
     }

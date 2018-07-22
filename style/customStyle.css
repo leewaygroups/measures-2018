@@ -355,3 +355,7 @@ div.tooltip th {
 .sidr ul li.sidr-class-active>span {
     box-shadow: 0 0 15px 3px #222 inset;
 }
+
+.no-scroll {
+    overflow-y: hidden;
+}

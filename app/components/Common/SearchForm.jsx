@@ -73,6 +73,18 @@ export default class SearchForm extends React.Component {
                     <div className="row">
                         <div className="col-md-3 col-sm-6 my-auto">
                             <div className="form-group m-0 p-1">
+                                <select className="form-control" id="inputResponse" onChange={this.change} value={this.state.searchTerms.response}>
+                                    <option>Choose Response...</option>
+                                    {
+                                        this.props.selectionOptions.responses.map((optionItem, key) => (                                           
+                                            <option key={key} value={optionItem.name} > {optionItem.value} </option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div className="col-md-3 col-sm-6 my-auto">
+                            <div className="form-group m-0 p-1">
                                 <select className="form-control" id="inputCountryCode" onChange={this.change} value={this.state.searchTerms.countryCode}>
                                     <option>Choose Country...</option>
                                     { 
@@ -80,18 +92,6 @@ export default class SearchForm extends React.Component {
                                             <option> {optionItem} </option>
                                         ))
                                     }                                    
-                                </select>
-                            </div>
-                        </div>
-                        <div className="col-md-3 col-sm-6 my-auto">
-                            <div className="form-group m-0 p-1">
-                                <select className="form-control" id="inputResponse" onChange={this.change} value={this.state.searchTerms.response}>
-                                    <option>Choose Response...</option>
-                                    {
-                                        this.props.selectionOptions.responses.map(optionItem => (
-                                            <option> {optionItem} </option>
-                                        ))
-                                    }
                                 </select>
                             </div>
                         </div>

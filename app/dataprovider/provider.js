@@ -14,6 +14,10 @@ export default class DataProvider {
         return this.filesMetaData; 
     }
 
+    getAllIndicators(){
+        return database.getAllIndicators();
+    }
+
     getAllTrees(){
         return database.getAllTrees();
     }

@@ -104,20 +104,26 @@ export default class App extends React.Component {
         );
     }
 
-    buildSelectionOptions = (allTrees) => {
+    buildSelectionOptions = (options_obj) => {
         let countrySet = new Set();
-        let responseSet = new Set();
+        let responseSet = []; //new Set();
         let yearSet = new Set();
 
+        if (options_obj['indicator']){
+            responseSet = options_obj['indicator'];
+        }
+
+        /*
         for (let index = 0; index < allTrees.length; index++) {
             countrySet.add(allTrees[index].countryCode);
             responseSet.add(allTrees[index].response);
             yearSet.add(allTrees[index].year)         
         }
+        */
 
         return {
             countries: Array.from(countrySet),
-            responses: Array.from(responseSet),
+            responses: responseSet,
             years: Array.from(yearSet)
         };
     }
@@ -137,10 +143,21 @@ export default class App extends React.Component {
             .then((response) => {
                 response.json().then((res)=>{
 
-                    this.setState({
-                        dataFilesMetaData : res,
-                        selectionOptions: this.buildSelectionOptions(res)
-                    });
+                    dataProvider.getAllIndicators()
+                        .then((inner_response) =>{
+                            inner_response.json().then((indicator) => {
+                                
+                                console.log('Metadata: ', res);
+
+                                this.setState({
+                                    dataFilesMetaData : res,
+                                    selectionOptions: this.buildSelectionOptions({'indicator' : indicator})
+                                });
+                                
+                            }) 
+                        }).catch((err) =>{
+                            console.log('failed to get responses from db');
+                        })
                 })
             }).catch((ex) => {
             console.log('failed to get data from db');

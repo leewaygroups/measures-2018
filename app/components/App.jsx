@@ -3,6 +3,7 @@ import ArticleContainer from './Articles/ArticleContainer.jsx';
 import FileLoader from './Common/FileLoader.jsx';
 import CustomTable from './Common/CustomTable.jsx';
 import DataProvider from '../dataprovider/provider.js';
+import Static_data_set from '../database/staticset.js';
 import DataProcessor from '../dataprovider/processor.js';
 import CanvasContainer from './Canvas/CanvasContainer.jsx';
 import SearchForm from './Common/SearchForm.jsx';
@@ -32,7 +33,7 @@ export default class App extends React.Component {
 
     handleUploadedFiles = (files) => {
         let self = this;
-        dataProcessor.process(files, [dataProvider.saveTrees, ((res) => {
+        dataProcessor.process(files, Static_data_set, [dataProvider.saveTrees, ((res) => {
             return (res) =>{
                 let dataFilesMetaData = this.state.dataFilesMetaData;
                 dataFilesMetaData.push(res);
@@ -211,7 +212,7 @@ export default class App extends React.Component {
                                             </div>
                                                 :
                                             <CustomTable
-                                                tableHeader = { [{ title: 'Country code'}, { title: 'Response'}, { title: 'Year'}, { title: 'Last updated'} ] }
+                                                tableHeader = { [{ title: 'Country'}, { title: 'Response'}, { title: 'Year'}, { title: 'Last updated'} ] }
                                                 tableData = { this.state.dataFilesMetaData }
                                                 removeTableRecord = { this.removeTableRecord}
                                                 download= {this.downloadJSONData}

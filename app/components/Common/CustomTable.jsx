@@ -67,8 +67,8 @@ export default class CustomTable extends React.Component {
                             this.props.tableData.map((fileItem, dataIndex) => (
                                 <tr key={fileItem._id.$oid}>
                                     <td>{ dataIndex + 1 }</td>
-                                    <td>{ fileItem.countryCode }</td>
-                                    <td>{ fileItem.response }</td>
+                                    <td>{ fileItem.country || fileItem.countryCode }</td>
+                                    <td>{ fileItem.response_descr || fileItem.response }</td>
                                     <td>{ fileItem.year }</td>
                                     <td>{ this.parseDate(new Date(fileItem.lastupdated[fileItem.lastupdated.length - 1]))}</td>					
                                     <td>

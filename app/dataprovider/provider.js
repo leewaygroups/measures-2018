@@ -14,6 +14,10 @@ export default class DataProvider {
         return this.filesMetaData; 
     }
 
+    getAllIndicators(){
+        return database.getAllIndicators();
+    }
+
     getAllTrees(){
         return database.getAllTrees();
     }
@@ -24,18 +28,18 @@ export default class DataProvider {
 
     saveTrees(JSONTree){
         JSONTree.lastupdated.push(new Date());
-        database.saveTree(JSONTree)
-            .then(res => {
-            return res.json();
-        })
-        .catch(error => console.error('Error:', error))
-        .then(response => {
-            console.log('Success:', response);
-            return response;
-        });
+        return database.saveTree(JSONTree)
     }
 
     removeTree(recordId){
         return database.deleteTreeById(recordId);
+    }
+
+    getCountryFromResponse(response) {
+        return database.getCountryFromResponse(response);
+    }
+
+    getYears(response, country) {
+        return database.getYears(response, country);
     }
 }

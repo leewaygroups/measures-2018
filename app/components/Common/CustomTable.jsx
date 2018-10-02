@@ -3,6 +3,7 @@ import FaBeer from 'react-icons/lib/fa/beer';
 import IoTrashA from 'react-icons/lib/io/trash-a';
 import IoEye from 'react-icons/lib/io/eye.js';
 import CustomModal from './CustomModal_v2.jsx';
+import Pagination from './Pagination.jsx';
 
 export default class CustomTable extends React.Component {
     constructor(props, context) {
@@ -10,6 +11,7 @@ export default class CustomTable extends React.Component {
         this.state = {
             view: {showModal: false},
             modelData: "",
+            dataPerPage: [],
         }
     }
  
@@ -45,7 +47,15 @@ export default class CustomTable extends React.Component {
         }
     }
 
+    handlePageClick = (data) => {
+        this.setState({
+            dataPerPage: data,
+        });
+    };
+
     render() {
+        const {tableData} = this.props;
+        const {dataPerPage} = this.state;
         const tableSyle = {
             marginTop: '5%'
         };
@@ -64,11 +74,11 @@ export default class CustomTable extends React.Component {
                     </thead>
                     <tbody>
                         {
-                            this.props.tableData.map((fileItem, dataIndex) => (
+                            dataPerPage.map((fileItem, dataIndex) => (
                                 <tr key={fileItem._id.$oid}>
                                     <td>{ dataIndex + 1 }</td>
-                                    <td>{ fileItem.countryCode }</td>
-                                    <td>{ fileItem.response }</td>
+                                    <td>{ fileItem.country || fileItem.countryCode }</td>
+                                    <td>{ fileItem.response_descr || fileItem.response }</td>
                                     <td>{ fileItem.year }</td>
                                     <td>{ this.parseDate(new Date(fileItem.lastupdated[fileItem.lastupdated.length - 1]))}</td>					
                                     <td>
@@ -85,7 +95,19 @@ export default class CustomTable extends React.Component {
                         
                     </tbody>
                 </table>
-                {this.state.view.showModal ? <CustomModal handleHideModal={this.handleHideModal} modelData={this.state.modelData}/> : null}
+                <div id="react-paginate" className="text-center">
+                    <Pagination items={tableData} onChangePage={this.handlePageClick} initialPage={1} perPageCount = {10} />
+                </div>
+                {
+                    this.state.view.showModal 
+                    ? 
+                    <CustomModal 
+                        handleHideModal={this.handleHideModal} 
+                        modelData={this.state.modelData}
+                        download = {this.props.download}/> 
+                    : 
+                    null
+                }
             </div>
         )
     }

@@ -7,6 +7,7 @@ class Node {
     constructor(isRoot, level, node_loc, parentNumber) {
         this.isRoot = isRoot;
         this.level = level;
+        this.visible = false;
         this.location = node_loc;
         this.parentNumber = parentNumber;
         this.number = this.setNodeNumber();
@@ -48,7 +49,7 @@ class Node {
 export default class Tree {
     constructor(fileName, depth) {
         this.countryCode = fileName.substring(0, 2);
-        this.year = '2018',
+        this.year = fileName.substring(2, 4);
         this.response = fileName.substring(4, fileName.indexOf('.'))
         this.sourcefile = fileName;
         this.depth = depth;

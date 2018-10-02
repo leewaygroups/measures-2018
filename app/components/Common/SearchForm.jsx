@@ -53,7 +53,7 @@ export default class SearchForm extends React.Component {
                 onChangeResponse(event.target.value);
                 this.setState({
                     searchTerms: {
-                        countryCode: null,
+                        countryCode: "Choose Country",
                         year: null,
                         response: event.target.value
                     }
@@ -94,7 +94,7 @@ export default class SearchForm extends React.Component {
                         <div className="col-md-3 col-sm-6 my-auto" style={!this.state.searchTerms.response ? disabledbutton : null }>
                             <div className="form-group m-0 p-1">
                                 <select className="form-control" id="inputCountryCode" onChange={this.change} value={this.state.searchTerms.countryCode}>
-                                    <option>Choose Country...</option>
+                                    <option value="Choose Country">Choose Country...</option>
                                     {
                                         this.props.selectionOptions.countries.map((optionItem, key) => (
                                             <option key={key} value={optionItem.name} > {optionItem.value} </option>
@@ -103,7 +103,8 @@ export default class SearchForm extends React.Component {
                                 </select>
                             </div>
                         </div>
-                        <div className="col-md-3 col-sm-6 my-auto" style={(!this.state.searchTerms.response || !this.state.searchTerms.countryCode) ? disabledbutton : null }>
+                        <div className="col-md-3 col-sm-6 my-auto" style={(!this.state.searchTerms.response
+                        || !this.state.searchTerms.countryCode || this.state.searchTerms.countryCode === "Choose Country") ? disabledbutton : null }>
                             <div className="form-group m-0 p-1">
                                 <select className="form-control" id="inputYear" onChange={this.change} value={this.state.searchTerms.year}>
                                     <option>Choose Year...</option>

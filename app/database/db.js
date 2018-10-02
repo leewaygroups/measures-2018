@@ -62,7 +62,22 @@ export default class Database {
         let url = this.indicatorsUri + '?apiKey=' + apiKey;
         return fetch(url);
     }
-    
+
+    getCountryFromResponse(response) {
+        let query = {};
+        if (response) { query['response'] = response }
+        let url = this.baseUri + '?q=' + JSON.stringify(query) + '&apiKey=' + apiKey;
+        return fetch(url);
+    }
+
+    getYears(response, country) {
+        let query = {};
+        if (response) { query['response'] = response }
+        if (country) { query['countryCode'] = country }
+        let url = this.baseUri + '?q=' + JSON.stringify(query) + '&apiKey=' + apiKey;
+        return fetch(url);
+    }
+
     getAllTrees() {
         // gets all trees in db
         let url = this.baseUri + '?apiKey=' + apiKey;
@@ -76,7 +91,7 @@ export default class Database {
 
         if (searchTermObject.countryCode) { query['countryCode'] = searchTermObject.countryCode }
         if (searchTermObject.response) { query['response'] = searchTermObject.response }
-        if (searchTermObject.year) { query['year'] = searchTermObject.year }
+        if (searchTermObject.year) { query['year'] = Number(searchTermObject.year) }
         if (searchTermObject.lastupdated) { query['lastupdated'] = searchTermObject.lastupdated }
 
         let url = this.baseUri + '?q=' + JSON.stringify(query) + '&apiKey=' + apiKey;

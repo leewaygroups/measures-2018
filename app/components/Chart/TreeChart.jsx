@@ -1,6 +1,7 @@
 import React from 'react';
-import { hierarchy } from 'd3-hierarchy'
+import {hierarchy} from 'd3-hierarchy'
 import * as _ from 'Lodash';
+import * as FileSaver from "file-saver";
 
 export default class TreeChart extends React.Component {
     constructor(props, context) {
@@ -22,37 +23,60 @@ export default class TreeChart extends React.Component {
         d3 = require("d3");
     }
 
-    componentDidMount() {        
+    componentDidMount() {
         this.props.targetTree ? this.fnInitTree(this.props.targetTree) : null;
+        let btnEle = document.getElementById('fullScreenBtn');
+        btnEle.addEventListener('click', () => {
+            this.fnGoInFullScreen('courseTree');
+            this.fnResizeTree();
+        });
+        window.addEventListener("resize", () => {
+            this.updateData(this.root, true);
+        });
     }
 
-    shouldComponentUpdate(nextProps) {
+    componentWillUnmount() {
+        window.removeEventListener("resize", () => {
+            this.updateData(this.root, true);
+        });
+    }
 
-        console.info('Look here: ', this.props.targetTree, nextProps.targetTree)
+    fnGoInFullScreen(ele) {
+        let element = document.getElementById(ele);
+        if (element.requestFullscreen)
+            element.requestFullscreen();
+        else if (element.mozRequestFullScreen)
+            element.mozRequestFullScreen();
+        else if (element.webkitRequestFullscreen)
+            element.webkitRequestFullscreen();
+        else if (element.msRequestFullscreen)
+            element.msRequestFullscreen();
+    }
 
-        if(nextProps.targetTree){          
-            
-            let isDifferentCountryCode = this.props.targetTree == undefined 
-                                        || this.props.targetTree.countryCode !== nextProps.targetTree.countryCode;
+    shouldComponentUpdate(nextProps, nextState) {
 
-            let isDifferentResponse = this.props.targetTree == undefined 
-                                        || this.props.targetTree.response !== nextProps.targetTree.response;
+        if (nextProps.targetTree) {
 
-            let isDifferentYear = this.props.targetTree == undefined 
-                                    || this.props.targetTree.year !== nextProps.targetTree.year;
-            
+            let isDifferentCountryCode = this.props.targetTree == undefined
+                || this.props.targetTree.countryCode !== nextProps.targetTree.countryCode;
+
+            let isDifferentResponse = this.props.targetTree == undefined
+                || this.props.targetTree.response !== nextProps.targetTree.response;
+
+            let isDifferentYear = this.props.targetTree == undefined
+                || this.props.targetTree.year !== nextProps.targetTree.year;
 
             let verdict = isDifferentCountryCode || isDifferentResponse || isDifferentYear;
 
-            if(verdict){
+            if (verdict) {
                 this.fnInitTree(nextProps.targetTree);
-                this.canShowTree  = true;
+                this.canShowTree = true;
             }
 
             return verdict;
         }
-        
-        this.canShowTree  = false;
+
+        this.canShowTree = false;
         return true;
     }
 
@@ -143,9 +167,29 @@ export default class TreeChart extends React.Component {
         }
     }
 
+    fnResizeTree() {
+        let width = d3.select("#courseTree").node().clientWidth;
+        let height = d3.select("#courseTree").node().clientHeight;
+        d3.select('#main').attr("width", width)
+            .attr("height", height);
+        const n = this.svg.node().getBBox();
+        const translate = {};
+        n.height = n.height + 50;
+        n.width = n.width + 50;
+        n.x = n.x - 25;
+        n.y = n.y - 25;
+        translate.scale = Math.min(height / n.height, width / n.width);
+        translate.translate = [(((-n.x * translate.scale) + width / 2) - (n.width / 2 * translate.scale)), (((-n.y * translate.scale) + height / 2) - (n.height / 2 * translate.scale))];
+        if (!this.autoScale) {
+            this.svgParent.transition().duration(1000).call(this.zoom.transform, d3.zoomIdentity.translate(width / 2, this.margin.top).scale(0.4));
+        } else {
+            this.svgParent.transition().duration(1000).call(this.zoom.transform, d3.zoomIdentity.translate(translate.translate[0], translate.translate[1]).scale(translate.scale));
+        }
+    }
+
+
     updateData(source, isRecall) {
         let self = this;
-
         // Compute the new tree layout.
         let treeData = self.treemap(self.root);
         // Compute the new tree layout.
@@ -153,8 +197,6 @@ export default class TreeChart extends React.Component {
         let links = treeData.descendants().slice(1);
 
         // Assigns the x and y position for the nodes
-
-
         // Normalize for fixed-depth.
         nodes.forEach(function (d) {
             d.y = d.depth * ((self.rectSize.height * 1.4));
@@ -226,9 +268,9 @@ export default class TreeChart extends React.Component {
             })
             .style("user-select", 'none').style("pointers-event", 'none')
             .style("text-anchor", 'middle').style('fill', function (d) {
-                return d.data.color ? "white" : 'black';
-            })
-            .style("dominant-baseline", 'Central').style("font-size", '20px');
+            return d.data.color ? "white" : 'black';
+        })
+            .style("dominant-baseline", 'Central').style("font-size", '24px');
         nodeEnter.append("text")
             .attr('y', 140)
             .text(function (d) {
@@ -238,9 +280,9 @@ export default class TreeChart extends React.Component {
             })
             .style("user-select", 'none').style("pointers-event", 'none')
             .style("text-anchor", 'middle').style('fill', function (d) {
-                return d.data.color ? "white" : 'black';
-            })
-            .style("dominant-baseline", 'Central').style("font-size", '20px');
+            return d.data.color ? "white" : 'black';
+        })
+            .style("dominant-baseline", 'Central').style("font-size", '24px');
 
         let nodeUpdate = nodeEnter.merge(node);
 
@@ -299,7 +341,7 @@ export default class TreeChart extends React.Component {
             //    return self.color(d.parent.data.number);
             //})
             .attr('d', function (d) {
-                let o = {x: source.x0, y: source.y0}
+                let o = {x: source.x0, y: source.y0};
                 return diagonal(o, o)
             });
 
@@ -331,7 +373,7 @@ export default class TreeChart extends React.Component {
         // Creates a curved (diagonal) path from parent to the child nodes
         function diagonal(s, d) {
 
-            let path = "M" + (s.x ) + "," + (s.y) + " L" + (s.x ) + "," + (s.y - 15)
+            let path = "M" + (s.x) + "," + (s.y) + " L" + (s.x) + "," + (s.y - 15)
                 + "L" + (d.x) + ',' + (s.y - 15) + "L" + (d.x) + "," + d.y;
 
             //let path = `M ${s.x} ${s.y}
@@ -346,22 +388,7 @@ export default class TreeChart extends React.Component {
 
         if (isRecall) {
             setTimeout(() => {
-
-                const n = self.svg.node().getBBox();
-                const translate = {};
-                n.height = n.height + 50;
-                n.width = n.width + 50;
-                n.x = n.x - 25;
-                n.y = n.y - 25;
-                let width = this.width + this.margin.right + this.margin.left
-                let height = this.height + this.margin.top + this.margin.bottom
-                translate.scale = Math.min(height / n.height, width / n.width);
-                translate.translate = [(((-n.x * translate.scale) + width / 2) - (n.width / 2 * translate.scale)), (((-n.y * translate.scale) + height / 2) - (n.height / 2 * translate.scale))];
-                if (!this.autoScale) {
-                    self.svgParent.transition().duration(1000).call(this.zoom.transform, d3.zoomIdentity.translate(width / 2, this.margin.top).scale(0.4));
-                } else {
-                    self.svgParent.transition().duration(1000).call(this.zoom.transform, d3.zoomIdentity.translate(translate.translate[0], translate.translate[1]).scale(translate.scale));
-                }
+                self.fnResizeTree();
             }, self.duration)
         }
 
@@ -370,12 +397,25 @@ export default class TreeChart extends React.Component {
     render() {
         let viewFrame;
 
-        if (this.canShowTree)
-        {
+        if (this.canShowTree) {
             viewFrame = (
-                <div className="tree m-t-64" id="courseTree"
-                        style={{display: "flex", height: "100%", width: "100%", overflowX:"auto"}}>
+                <div className="tree m-t-64"
+                     style={{display: "flex", height: "100%", width: "100%", overflowX: "auto"}}>
                     <div id="tooltip-container"></div>
+                        <div id="courseTree" style={{
+                            display: "flex", height: "100%", width: "100%", justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+                        </div>
+                        <div style={{position: 'absolute', display: "flex"}}>
+                        <div id="fullScreenBtn"  className="fullScreen-content">
+                            <button>Full Screen</button>
+                        </div>
+                        <div id="viewJson" style={{marginLeft: "10px"}} className="fullScreen-content"
+                            onClick={this.props.handleShowModal}>
+                            <button>View Data</button>
+                        </div>
+                    </div>
                 </div>
             );
         }

@@ -37,7 +37,7 @@ export default class CustomModal extends React.Component {
               </p>
             </Modal.Body>
             <Modal.Footer>
-              <Button bsStyle="primary" onClick={this.props.downloadAction}>Download full article</Button>
+              <Button bsStyle="primary" onClick={this.props.downloadAction.bind(this,this.props.article.description)}>Download full article</Button>
             </Modal.Footer>
           </Modal>
         </div>

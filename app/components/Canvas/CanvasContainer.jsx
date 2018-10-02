@@ -1,5 +1,6 @@
 import React from 'react';
 import TreeChart from '../Chart/TreeChart.jsx';
+import CustomModal from '../Common/CustomModal_v2.jsx';
 
 const searchSyle = {
     marginTop : '20px',
@@ -9,14 +10,31 @@ const searchSyle = {
 };
 
 export default class CanvasContainer extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            view: {showModal: false},
+        }
+    }
+
+    handleHideModal = () => {
+        this.setState({view: {showModal: false}});
+    }
+
+    handleShowModal = () => {
+        this.setState({
+            view: {showModal: true}
+        });
+    }
+
     // this.props.targetTree[0].response
     render(){
         return (
             <div className="container border mb-4" style={searchSyle} >
                 {
-                    this.props.targetTree ?
+                    (this.props.targetTree && this.props.targetTree[0])?
                     <div style={{height: "500px", width: "100%"}}>
-                        <TreeChart targetTree={ this.props.targetTree[0] }/>               
+                        <TreeChart targetTree={ this.props.targetTree[0] } handleShowModal={this.handleShowModal}/>
                     </div>
                     :
                     <div className="card mt-2 border-0 font-14">
@@ -27,6 +45,16 @@ export default class CanvasContainer extends React.Component {
                         </span>
                         </div>
                     </div>
+                }
+                {
+                    this.state.view.showModal
+                        ?
+                        <CustomModal
+                            handleHideModal={this.handleHideModal}
+                            modelData={this.props.targetTree[0]}
+                            download={this.props.download}/>
+                        :
+                        null
                 }
             </div>            
         );

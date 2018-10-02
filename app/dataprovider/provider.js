@@ -34,4 +34,12 @@ export default class DataProvider {
     removeTree(recordId){
         return database.deleteTreeById(recordId);
     }
+
+    getCountryFromResponse(response) {
+        return database.getCountryFromResponse(response);
+    }
+
+    getYears(response, country) {
+        return database.getYears(response, country);
+    }
 }

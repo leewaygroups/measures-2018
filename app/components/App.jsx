@@ -31,6 +31,7 @@ export default class App extends React.Component {
             },
             isOpenAdminModel: false,
             displayAdminTab: false,
+            }
         };
     }
 
@@ -205,7 +206,40 @@ export default class App extends React.Component {
         FileSaver.saveAs(file, 'data.json');
     }
 
-    componentDidMount(){
+    buildSelectionOptions = (options_obj) => {
+        let countrySet = new Set();
+        let responseSet = []; //new Set();
+        let yearSet = new Set();
+
+        if (options_obj['indicator']){
+            responseSet = options_obj['indicator'];
+        }
+
+        /*
+        for (let index = 0; index < allTrees.length; index++) {
+            countrySet.add(allTrees[index].countryCode);
+            responseSet.add(allTrees[index].response);
+            yearSet.add(allTrees[index].year)         
+        }
+        */
+
+        return {
+            countries: Array.from(countrySet),
+            responses: responseSet,
+            years: Array.from(yearSet)
+        };
+    }
+
+    downloadJSONData = (jsonData) => {
+
+        let file = new Blob([JSON.stringify(jsonData)], { 
+            type: 'application/json' 
+        });
+
+        FileSaver.saveAs(file, 'data.json');
+    }
+
+     componentDidMount(){
         let self = this;
         let loginDetails = [];
         let isAdmin =  JSON.parse(localStorage.getItem("isAdmin"));

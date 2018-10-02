@@ -31,7 +31,6 @@ export default class App extends React.Component {
             },
             isOpenAdminModel: false,
             displayAdminTab: false,
-            }
         };
     }
 
@@ -167,14 +166,14 @@ export default class App extends React.Component {
                 password: "socialprotection",
             };
         localStorage.setItem("loginDetails", JSON.stringify(loginDetails));
-            if ((userName === loginDetails.id) && (password === loginDetails.password)) {
-                localStorage.setItem("isAdmin", true);
-                this.setState({displayAdminTab: true});
-            } else {
-                localStorage.setItem("isAdmin", false);
-                this.setState({displayAdminTab: false});
-            }
-            this.setState({isOpenAdminModel: false});
+        if ((userName === loginDetails.id) && (password === loginDetails.password)) {
+            localStorage.setItem("isAdmin", true);
+            this.setState({displayAdminTab: true});
+        } else {
+            localStorage.setItem("isAdmin", false);
+            this.setState({displayAdminTab: false});
+        }
+        this.setState({isOpenAdminModel: false});
     };
 
     onCloseClick = () => {
@@ -206,40 +205,7 @@ export default class App extends React.Component {
         FileSaver.saveAs(file, 'data.json');
     }
 
-    buildSelectionOptions = (options_obj) => {
-        let countrySet = new Set();
-        let responseSet = []; //new Set();
-        let yearSet = new Set();
-
-        if (options_obj['indicator']){
-            responseSet = options_obj['indicator'];
-        }
-
-        /*
-        for (let index = 0; index < allTrees.length; index++) {
-            countrySet.add(allTrees[index].countryCode);
-            responseSet.add(allTrees[index].response);
-            yearSet.add(allTrees[index].year)         
-        }
-        */
-
-        return {
-            countries: Array.from(countrySet),
-            responses: responseSet,
-            years: Array.from(yearSet)
-        };
-    }
-
-    downloadJSONData = (jsonData) => {
-
-        let file = new Blob([JSON.stringify(jsonData)], { 
-            type: 'application/json' 
-        });
-
-        FileSaver.saveAs(file, 'data.json');
-    }
-
-     componentDidMount(){
+    componentDidMount(){
         let self = this;
         let loginDetails = [];
         let isAdmin =  JSON.parse(localStorage.getItem("isAdmin"));
@@ -279,7 +245,7 @@ export default class App extends React.Component {
                 <div className="col-md-3 col-sm-6" style={{float: "right"}}>
                     <div className="form-group m-0 p-1">
                         {!displayAdminTab &&
-                            <button style={{color:"white"}} className="btn btn-warning" onClick={this.onIsAdminButtonClick}>Is Admin</button>
+                        <button style={{color:"white"}} className="btn btn-warning" onClick={this.onIsAdminButtonClick}>Is Admin</button>
                         }
                     </div>
                 </div>
@@ -292,9 +258,9 @@ export default class App extends React.Component {
                             <a className="nav-link" data-toggle="tab" href="#inequality">Inequality-Measures</a>
                         </li>
                         {displayAdminTab &&
-                            <li className="nav-item">
-                                <a className="nav-link" data-toggle="tab" href="#admin">Admin</a>
-                            </li>
+                        <li className="nav-item">
+                            <a className="nav-link" data-toggle="tab" href="#admin">Admin</a>
+                        </li>
                         }
 
                     </ul>
